@@ -23,13 +23,13 @@ export class RecipesService {
     }
   ];
 
-  private recipesList$ = new Subject<Recipe[]>();
+  // private recipesList$ = new Subject<Recipe[]>();
 
   constructor() { }
 
-  getRecipesListAsObservable(): Observable<Recipe[]> {
-    return this.recipesList$.asObservable();
-  }
+  // getRecipesListAsObservable(): Observable<Recipe[]> {
+  //   return this.recipesList$.asObservable();
+  // }
 
   getAllRecipes(): Recipe[] {
     return [...this.recipesList];
@@ -41,6 +41,6 @@ export class RecipesService {
 
   deleteRecipe(recipeId: string): void {
     this.recipesList = this.recipesList.filter(recipe => recipe.id !== recipeId);
-    this.recipesList$.next(this.recipesList);
+    // this.recipesList$.next(this.recipesList);
   }
 }

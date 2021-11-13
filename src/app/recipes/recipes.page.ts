@@ -12,7 +12,7 @@ import { Subscription } from 'rxjs';
 export class RecipesPage implements OnInit, OnDestroy {
 
   recipes: Recipe[] = [];
-  recipesListSubscription: Subscription;
+  // recipesListSubscription: Subscription;
 
   constructor(
     private recipesService: RecipesService
@@ -20,13 +20,31 @@ export class RecipesPage implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.recipes = this.recipesService.getAllRecipes();
-    this.recipesListSubscription = this.recipesService.getRecipesListAsObservable().subscribe(recipesList => {
-      this.recipes = recipesList;
-    });
+    // this.recipesListSubscription = this.recipesService.getRecipesListAsObservable().subscribe(recipesList => {
+    //   this.recipes = recipesList;
+    // });
+  }
+
+  ionViewWillEnter() {
+    console.log('will enter');
+    this.recipes = this.recipesService.getAllRecipes();
+  }
+
+  ionViewDidEnter() {
+    console.log('did enter');
+  }
+
+  ionViewWillLeave() {
+    console.log('will leave');
+  }
+
+  ionViewDidLeave() {
+    console.log('did leave');
   }
 
   ngOnDestroy(): void {
-    this.recipesListSubscription.unsubscribe();
+    console.log('destroy called');
+    // this.recipesListSubscription.unsubscribe();
   }
 
 }
