@@ -1,17 +1,14 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-
 import { IonicModule } from '@ionic/angular';
-
-import { NewOfferPageRoutingModule } from './new-offer-routing.module';
-
 import { NewOfferPage } from './new-offer.page';
+import { NewOfferPageRoutingModule } from './new-offer-routing.module';
+import { NgModule } from '@angular/core';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   imports: [
     CommonModule,
-    FormsModule,
+    ReactiveFormsModule,
     IonicModule,
     NewOfferPageRoutingModule
   ],

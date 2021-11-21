@@ -12,21 +12,27 @@ export class PlacesService {
       'Manhattan Mansion',
       'In the heart of New York City.',
       'https://imgs.6sqft.com/wp-content/uploads/2014/06/21042533/Carnegie-Mansion-nyc.jpg',
-      149.99
+      149.99,
+      new Date('2019-01-01'),
+      new Date('2019-12-31'),
     ),
     new Place(
       'p2',
       'L\'Amour Toujours',
       'Romantic place in Paris!',
       'https://i.ytimg.com/vi/jBzG0tD2RmA/maxresdefault.jpg',
-      189.99
+      189.99,
+      new Date('2019-01-01'),
+      new Date('2019-12-31'),
     ),
     new Place(
       'p3',
       'The Foggy Palace',
       'Not you average city t rip!',
       'https://i.pinimg.com/originals/9c/88/44/9c8844b217bdb6c17db14f51ad2e51a5.jpg',
-      99.99
+      99.99,
+      new Date('2019-01-01'),
+      new Date('2019-12-31'),
     ),
   ];
 

@@ -4,10 +4,65 @@
       <ion-back-button defaultHref="/places/tabs/offers"></ion-back-button>
     </ion-buttons>
     <ion-title>New Offer</ion-title>
+    <ion-buttons slot="primary">
+      <ion-button (click)="onCreateOffer()" [disabled]="!form.valid">
+        <ion-icon name="checkmark" slot="icon-only"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
+  <form [formGroup]="form">
+    <ion-grid>
+      <ion-row>
+        <ion-col sizeSm="6" offsetSm="3">
+          <ion-item>
+            <ion-label position="floating">Title</ion-label>
+            <ion-input type="text" formControlName="title" autocomplete autocorrect></ion-input>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col sizeSm="6" offsetSm="3">
+          <ion-item>
+            <ion-label position="floating">Short Description</ion-label>
+            <ion-textarea formControlName="description" rows="3"></ion-textarea>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+      <ion-row *ngIf="!form.get('description').valid && form.get('description').touched">
+        <ion-col sizeSm="6" offsetSm="3">
+          <p>Description must must be between 1 and 180 characters.</p>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col sizeSm="6" offsetSm="3">
+          <ion-item>
+            <ion-label position="floating">Price</ion-label>
+            <ion-input formControlName="price" type="number"></ion-input>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col sizeSm="3" offsetSm="3">
+          <ion-item>
+            <ion-label position="floating">Available From</ion-label>
+            <ion-datetime formControlName="dateFrom" min="2019-01-01" max="2025-12-31"></ion-datetime>
+          </ion-item>
+        </ion-col>
+        <ion-col sizeSm="3" offsetSm="3">
+          <ion-item>
+            <ion-label position="floating">Available To</ion-label>
+            <ion-datetime formControlName="dateTo" min="2019-01-01" max="2025-12-31"></ion-datetime>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </form>
+</ion-content>
+
+<!-- <ion-content>
   <ion-grid fixed>
     <ion-row class="ion-align-items-center ion-justify-content-center">
       <ion-col size="5" size-sm="4" size-md="3" offset="2" offset-sm="2" offset-md="3">Row 1 Col 1</ion-col>
@@ -25,4 +80,4 @@
       <ion-col>Row 2 Col 2</ion-col>
     </ion-row>
   </ion-grid>
-</ion-content>
+</ion-content> -->
