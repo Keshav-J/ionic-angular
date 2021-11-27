@@ -12,6 +12,7 @@ import { Subscription } from 'rxjs';
 })
 export class BookingsPage implements OnInit, OnDestroy {
   bookings: Booking[];
+  isLoading = false;
 
   private $bookingSub: Subscription;
 
@@ -24,6 +25,13 @@ export class BookingsPage implements OnInit, OnDestroy {
     // this.bookings = this.bookingsService.bookings;
     this.$bookingSub = this.bookingsService.bookings.subscribe(bookings => {
       this.bookings = bookings;
+    });
+  }
+
+  ionViewWillEnter() {
+    this.isLoading = true;
+    this.bookingsService.fetchBookings().subscribe(() => {
+      this.isLoading = false;
     });
   }
 

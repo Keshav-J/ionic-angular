@@ -1,4 +1,4 @@
-import { ActionSheetController, LoadingController, ModalController, NavController } from '@ionic/angular';
+import { ActionSheetController, AlertController, LoadingController, ModalController, NavController } from '@ionic/angular';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 
@@ -17,11 +17,12 @@ import { Subscription } from 'rxjs';
 export class PlaceDetailPage implements OnInit, OnDestroy {
   place: Place;
   isBookable = false;
+  isLoading = false;
 
   private $placeSub: Subscription;
 
   constructor(
-    // private router: Router,
+    private router: Router,
     private navCtrl: NavController,
     private modalController: ModalController,
     private route: ActivatedRoute,
@@ -30,6 +31,7 @@ export class PlaceDetailPage implements OnInit, OnDestroy {
     private bookinsService: BookingsService,
     private loadingCtrl: LoadingController,
     private authService: AuthService,
+    private alertCtrl: AlertController,
   ) { }
 
   ngOnInit() {
@@ -39,9 +41,25 @@ export class PlaceDetailPage implements OnInit, OnDestroy {
       }
 
       // this.place = this.placesService.places.find(p => p.id === paramMap.get('placeId'));
+      this.isLoading = true;
       this.$placeSub = this.placesService.getPlace(paramMap.get('placeId')).subscribe(place => {
         this.place = place;
         this.isBookable = this.authService.userId !== place.userId;
+        this.isLoading = false;
+      },
+      () => {
+        this.alertCtrl.create({
+          header: 'An error occured!',
+          message: 'Could no load place.',
+          buttons: [{
+            text: 'Okay',
+            handler: () => {
+              this.router.navigate(['/', 'places', 'tabs', 'discover']);
+            }
+          }]
+        }).then(alertEl => {
+          alertEl.present();
+        });
       });
     });
   }
