@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 import { LoadingController } from '@ionic/angular';
+import { PlaceLocation } from '../../location.model';
 import { PlacesService } from '../../places.service';
 import { Router } from '@angular/router';
 
@@ -41,15 +42,18 @@ export class NewOfferPage implements OnInit {
         updateOn: 'blur',
         validators: [Validators.required]
       }),
+      location: new FormControl(null, {validators: [Validators.required]}),
     });
+  }
+
+  onLocationPicked(pickedLocation) {
+    this.form.patchValue({location: pickedLocation});
   }
 
   onCreateOffer() {
     if (!this.form.valid) {
       return;
     }
-    console.log('Creating offered place...');
-    console.log(this.form);
 
     this.loadingCtrl
       .create({message: 'Creating place...'})
@@ -61,6 +65,7 @@ export class NewOfferPage implements OnInit {
             +this.form.value.price,
             new Date(this.form.value.dateFrom),
             new Date(this.form.value.dateTo),
+            this.form.value.location,
           ).subscribe(() => {
             loadingEl.dismiss();
             this.form.reset();

@@ -73,7 +73,6 @@ export class EditOfferPage implements OnInit, OnDestroy {
     if (!this.form.valid) {
       return;
     }
-    console.log(this.form);
 
     this.loadingCtrl.create({message: 'Updating Place...'})
       .then(loadingEl => {

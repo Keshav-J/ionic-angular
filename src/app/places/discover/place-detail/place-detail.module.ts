@@ -5,6 +5,7 @@ import { IonicModule } from '@ionic/angular';
 import { NgModule } from '@angular/core';
 import { PlaceDetailPage } from './place-detail.page';
 import { PlaceDetailPageRoutingModule } from './place-detail-routing.module';
+import { SharedModule } from '../../../shared/shared.module';
 
 @NgModule({
   imports: [
@@ -12,6 +13,7 @@ import { PlaceDetailPageRoutingModule } from './place-detail-routing.module';
     FormsModule,
     IonicModule,
     PlaceDetailPageRoutingModule,
+    SharedModule,
   ],
   declarations: [PlaceDetailPage, CreateBookingComponent]
 })

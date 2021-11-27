@@ -2,9 +2,10 @@ import { ActionSheetController, AlertController, LoadingController, ModalControl
 import { ActivatedRoute, Router } from '@angular/router';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 
-import { AuthService } from 'src/app/auth/auth.service';
-import { BookingsService } from 'src/app/bookings/bookings.service';
+import { AuthService } from '../../../auth/auth.service';
+import { BookingsService } from '../../../bookings/bookings.service';
 import { CreateBookingComponent } from '../../../bookings/create-booking/create-booking.component';
+import { MapModalComponent } from '../../../shared/map-modal/map-modal.component';
 import { Place } from '../../place.model';
 import { PlacesService } from '../../places.service';
 import { Subscription } from 'rxjs';
@@ -24,7 +25,7 @@ export class PlaceDetailPage implements OnInit, OnDestroy {
   constructor(
     private router: Router,
     private navCtrl: NavController,
-    private modalController: ModalController,
+    private modalCtrl: ModalController,
     private route: ActivatedRoute,
     private placesService: PlacesService,
     private actionSheetCtrl: ActionSheetController,
@@ -94,8 +95,7 @@ export class PlaceDetailPage implements OnInit, OnDestroy {
   }
 
   openBookingModal(mode: 'select' | 'random') {
-    console.log(mode);
-    this.modalController
+    this.modalCtrl
       .create({component: CreateBookingComponent, componentProps: {selectedPlace: this.place, selectedMode: mode}})
       .then(modalEl => {
         modalEl.present();
@@ -119,11 +119,27 @@ export class PlaceDetailPage implements OnInit, OnDestroy {
               bookingData.endDate
             ).subscribe(() => {
               loadingEl.dismiss();
-              console.log('BOOKED!');
             });
           });
         }
       });
+  }
+
+  onShowFullMap() {
+    this.modalCtrl.create({
+      component: MapModalComponent,
+      componentProps: {
+        center: {
+          lat:this.place.location.lat,
+          lng:this.place.location.lng,
+        },
+        selectable: false,
+        closeButtonText: 'Close',
+        title: this.place.location.address,
+      }
+    }).then(modalEl => {
+      modalEl.present();
+    });
   }
 
   ngOnDestroy(): void {
