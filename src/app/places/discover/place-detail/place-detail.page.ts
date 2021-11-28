@@ -1,6 +1,7 @@
 import { ActionSheetController, AlertController, LoadingController, ModalController, NavController } from '@ionic/angular';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { switchMap, take } from 'rxjs/operators';
 
 import { AuthService } from '../../../auth/auth.service';
 import { BookingsService } from '../../../bookings/bookings.service';
@@ -43,25 +44,35 @@ export class PlaceDetailPage implements OnInit, OnDestroy {
 
       // this.place = this.placesService.places.find(p => p.id === paramMap.get('placeId'));
       this.isLoading = true;
-      this.$placeSub = this.placesService.getPlace(paramMap.get('placeId')).subscribe(place => {
-        this.place = place;
-        this.isBookable = this.authService.userId !== place.userId;
-        this.isLoading = false;
-      },
-      () => {
-        this.alertCtrl.create({
-          header: 'An error occured!',
-          message: 'Could no load place.',
-          buttons: [{
-            text: 'Okay',
-            handler: () => {
-              this.router.navigate(['/', 'places', 'tabs', 'discover']);
+      let fetchedUserId: string;
+      this.authService.userId.pipe(
+          take(1),
+          switchMap(userId => {
+            if (!userId) {
+              throw new Error('No user found!');
             }
-          }]
-        }).then(alertEl => {
-          alertEl.present();
+            fetchedUserId = userId;
+            return this.placesService.getPlace(paramMap.get('placeId'));
+          })
+        ).subscribe(place => {
+            this.place = place;
+            this.isBookable = place.userId !== fetchedUserId;
+            this.isLoading = false;
+          },
+          () => {
+            this.alertCtrl.create({
+              header: 'An error occured!',
+              message: 'Could no load place.',
+              buttons: [{
+                text: 'Okay',
+                handler: () => {
+                  this.router.navigate(['/', 'places', 'tabs', 'discover']);
+                }
+              }]
+            }).then(alertEl => {
+              alertEl.present();
+            });
         });
-      });
     });
   }
 
