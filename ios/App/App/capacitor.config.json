@@ -1,6 +1,6 @@
 {
 	"appId": "com.recipes.ionic",
-	"appName": "ionic-angular",
+	"appName": "Place Booking App",
 	"webDir": "www",
 	"bundledWebRuntime": false
 }

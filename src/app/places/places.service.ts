@@ -81,13 +81,21 @@ export class PlacesService {
       );
   }
 
-  addPlace(title: string, description: string, price: number, dateFrom: Date, dateTo: Date, location: PlaceLocation) {
+  uploadImage(image: File) {
+    const uploadData = new FormData();
+    uploadData.append('image', image);
+    return this.http.post<{imageUrl: string; imagePath: string}>(
+      'https://us-central1-ionic-angular-booking-app.cloudfunctions.net/storeImage', uploadData
+    );
+  }
+
+  addPlace(title: string, description: string, price: number, dateFrom: Date, dateTo: Date, location: PlaceLocation, imageUrl: string) {
     let generatedId: string;
     const newPlace = new Place(
       Math.random().toString(),
       title,
       description,
-      'https://i.pinimg.com/originals/9c/88/44/9c8844b217bdb6c17db14f51ad2e51a5.jpg',
+      imageUrl,
       price,
       dateFrom,
       dateTo,
