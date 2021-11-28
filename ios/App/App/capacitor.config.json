@@ -1,6 +1,6 @@
 {
 	"appId": "com.recipes.ionic",
-	"appName": "Place Booking App",
+	"appName": "PairBnB",
 	"webDir": "www",
 	"bundledWebRuntime": false
 }
